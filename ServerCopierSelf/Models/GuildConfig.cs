@@ -17,6 +17,8 @@
 
             public ulong GuildId { get; set; }
 
+            public long SaveTime { get; set; }
+
             public string IconUrl { get; set; }
 
             public string Name { get; set; }

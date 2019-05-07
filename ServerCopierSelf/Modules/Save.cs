@@ -335,7 +335,8 @@
                 VoiceChannels = new List<GuildConfig.VoiceChannel>(),
                 Roles = new List<GuildConfig.Role>(),
                 Users = new List<GuildConfig.User>(),
-                GuildEmotes = new List<GuildConfig.GuildEmote>()
+                GuildEmotes = new List<GuildConfig.GuildEmote>(),
+                SaveTime = DateTime.UtcNow.Ticks
             };
 
             try
@@ -401,7 +402,7 @@
                 await LogHandler.LogMessage($"Users load error\n{e}", LogSeverity.Error);
             }
 
-            var fileName = $"{DateTime.UtcNow.Ticks} {Context.Guild.Id}.json";
+            var fileName = $"{newObject.SaveTime} {Context.Guild.Id}.json";
             File.WriteAllText(Path.Combine(AppContext.BaseDirectory, $"setup/{fileName}"), JsonConvert.SerializeObject(newObject, Formatting.Indented));
             await LogHandler.LogMessage($"Saving {Context.Guild.Name} Complete || file: {fileName}");
         }
