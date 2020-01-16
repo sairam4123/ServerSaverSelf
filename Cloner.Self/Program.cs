@@ -31,7 +31,7 @@ namespace Cloner.Self
                 var save = await SaveMethods1.FromToken(false, token, gId, client);
 
                 var saveStr = save.ToCompressedString();
-                var filePath = Path.Combine(AppContext.BaseDirectory, $"{save.Guild.Name}-{save.GetSaveTime().ToString("HH-mm-ss dd-MM-yy")}.clone");
+                var filePath = Path.Combine(AppContext.BaseDirectory, $"{save.Guild.Name.Filter()}-{save.GetSaveTime().ToString("HH-mm-ss dd-MM-yy")}.clone");
                 File.WriteAllText(filePath, saveStr);
                 Console.WriteLine($"Save Complete, saved to {filePath}");
             }
