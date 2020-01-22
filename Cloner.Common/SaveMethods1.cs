@@ -41,11 +41,7 @@ namespace Cloner.Common
 
             LogMethod("Attempting to save guild (server) information...");
             var guild = await RequestAndParse<GuildParentData.Guild>(bot, token, Save.ApiEndpoint + "/guilds/" + guildId, httpClient);
-            if (guild == null)
-            {
-                throw new Exception("User is not a member of the requested guild");
-            }
-            save.Guild = guild;
+            save.Guild = guild ?? throw new Exception("User is not a member of the requested guild");
 
             bool readMessages = true;
             bool viewBans = true;
@@ -97,8 +93,7 @@ namespace Cloner.Common
 
             LogMethod("Saving Channels...");
             var channels = await RequestAndParse<List<ChannelData.Channel>>(bot, token, guildEndpoint + "/channels", httpClient);
-            if (channels == null) throw new Exception("Channels returned invalid.");
-            save.Channels = channels;
+            save.Channels = channels ?? throw new Exception("Channels returned invalid.");
 
             save.ChannelMessages = new Dictionary<ulong, List<MessageData.Message>>();
             foreach (var channel in save.Channels)
