@@ -17,27 +17,30 @@ namespace Cloner.Self
 
         public async Task RunAsync()
         {
-            var client = new HttpClient();
-
-            Console.WriteLine("Token: ");
-            var token = Console.ReadLine();
-            Console.WriteLine("Guild ID: ");
-            var gId = ulong.Parse(Console.ReadLine());
-
-            Console.WriteLine("Saving...");
-            try
+            using (var client = new HttpClient())
             {
-                SaveMethods1.Log += LogEvent;
-                var save = await SaveMethods1.FromToken(false, token, gId, client);
 
-                var saveStr = save.ToCompressedString();
-                var filePath = Path.Combine(AppContext.BaseDirectory, $"{save.Guild.Name.Filter()}-{save.GetSaveTime().ToString("HH-mm-ss dd-MM-yy")}.clone");
-                File.WriteAllText(filePath, saveStr);
-                Console.WriteLine($"Save Complete, saved to {filePath}");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
+                Console.WriteLine("Token: ");
+                var token = Console.ReadLine();
+                Console.WriteLine("Guild ID: ");
+                var gId = ulong.Parse(Console.ReadLine());
+
+                Console.WriteLine("Saving...");
+                try
+                {
+                    SaveMethods1.Log += LogEvent;
+                    var save = await SaveMethods1.FromToken(false, token, gId, client);
+
+                    var saveStr = save.ToCompressedString();
+                    var filePath = Path.Combine(AppContext.BaseDirectory, $"{save.Guild.Name.Filter()}-{save.GetSaveTime().ToString("HH-mm-ss dd-MM-yy")}.clone");
+                    File.WriteAllText(filePath, saveStr);
+                    Console.WriteLine($"Save Complete, saved to {filePath}");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+
                 Console.ReadKey();
             }
         }
